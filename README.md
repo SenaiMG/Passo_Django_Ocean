@@ -336,15 +336,15 @@ Adicione o seguinte conteúdo:
 
 ```ini
 [Unit]
-Description=gunicorn daemon for seu_projeto
+Description=gunicorn daemon for Seu_Projeto
 After=network.target
 
 [Service]
-User=seu_usuario
+User=Seu User
 Group=www-data
-WorkingDirectory=/var/www/seu_projeto
-EnvironmentFile=/var/www/seu_projeto/.env
-ExecStart=/var/www/seu_projeto/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/www/seu_projeto/gunicorn.sock seu_projeto.wsgi:application
+WorkingDirectory=/var/www/Seu_Projeto/sistema
+ExecStart=/var/www/Seu_Projeto/venv/bin/gunicorn  --workers 3 --bind unix:/var/www/Seu_Projeto/sistema/gunicorn.sock setup.wsgi:application
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
@@ -399,20 +399,22 @@ Adicione o seguinte conteúdo:
 ```nginx
 server {
     listen 80;
-    server_name seu_dominio ou seu_endereco_ip;
+    server_name 10.0.0.1;  # Substitua pelo seu domínio ou IP
 
-    location = /favicon.ico { access_log off; log_not_found off; }
+    location / {
+        proxy_pass http://unix:/var/www/RoomReservation/sistema/gunicorn.sock;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
     location /static/ {
-        root /var/www/seu_projeto;
+        alias /var/www/RoomReservation/sistema/static/;
     }
 
     location /media/ {
-        root /var/www/seu_projeto;
-    }
-
-    location / {
-        include proxy_params;
-        proxy_pass http://unix:/var/www/seu_projeto/gunicorn.sock;
+        alias /var/www/RoomReservation/sistema/media/;
     }
 }
 ```
