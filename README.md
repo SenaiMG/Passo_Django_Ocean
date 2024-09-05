@@ -164,6 +164,10 @@ Em caso de utilização de .env atualize nela os valores.
 Para que o Django possa se comunicar com o MySQL, instale o conector MySQL:
 
 ```bash
+sudo apt-get install libmysqlclient-dev
+```
+
+```bash
 pip install mysqlclient
 ```
 
