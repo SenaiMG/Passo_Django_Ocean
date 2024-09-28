@@ -166,6 +166,9 @@ Para que o Django possa se comunicar com o MySQL, instale o conector MySQL:
 ```bash
 sudo apt-get install libmysqlclient-dev
 ```
+```bash
+sudo apt-get install python3-dev default-libmysqlclient-dev build-essential pkg-config
+```
 
 ```bash
 pip install mysqlclient
